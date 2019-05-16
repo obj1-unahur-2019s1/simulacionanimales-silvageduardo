@@ -1,0 +1,116 @@
+# Simulación campestre
+
+Para hacernos amigos de Wollok-game y seguir practicando la definición de clases, vamos a definir una simulación gráfica de un campo en el que hay animales, y dispositivos que los atienden.
+
+Vamos a ir bien de a poco.
+
+
+## 1. Arrancamos el juego
+El código inicial incluye dos archivos en la carpeta `src`.
+   
+Uno es `animales.wlk`, en este archivo Wollok vamos a definir las clases que modelan distintas especies animales.
+El código inicial incluye una clase `Vaca` con dos atributos:
+```
+var property position = game.at(3,5)
+const property image = "vaca.gif"
+```
+Cualquier objeto al que se le puedan enviar los mensajes `position()`, `position(nuevaPosicion)` e `image`, es un posible **objeto visual** para un Wollok-game. Los dos `property` le agregan exactamente esos métodos a la clase `Vaca`. Perfecto.
+
+Veamos ahora _cómo se inicializaron_ estos atributos.
+- La `position` se inicializó usando `game.at(x,y)`. El objeto `game` viene con Wollok, pero para usarlo hay que hacer el `import wollok.game.*` que está arriba de todo en el archivo.
+- La `image` se inicializó con un nombre de un archivo que está en la carpeta `asset`. Si queremos agregar más imágenes, las ponemos en esa carpeta. Tamaño: 44x44 píxeles está bien. 
+
+El otro archivo es `simulacionanimales.wpgm`.  
+Este no es un archivo Wollok común, es un **programa**. Esto se reconoce por la _extensión_ del archivo: los programas Wollok son `wpgm`, los archivos Wollok son `wlk`.  
+Tiene lo mínimo para levantar un Wollok-game: el `import wollok.game.*`, la configuración del tamaño de la pantalla, y al final `game.start()`. Además, se define una variable `animalActual`, que se inicializa con una instancia de `Vaca`. 
+
+Si ejecutamos este archivo, va a aparecer una pantalla separada, ese es el game. Pero ... está vacía, no aparece la vaca por ningún lado.  
+Para que aparezca hay que agregarla al `game` como objeto visual: 
+```
+game.addVisual(animalActual)
+```
+Agregá esta línea debajo de la definición de `animalActual`, y volvé a ejecutar el programa. Ahora sí debería aparecer el dibujo de la vaca. No se mueve ni hace nada, pero por algo se empieza.
+
+## 2. Algo del modelo de vacas: peso y sed
+
+Empecemos por un modelo de lo más sencillo de una vaca: nos interesa saber solamente el peso, y si tiene sed o no.  
+Cuando _come_ se informa cuántos kilos comió, aumenta su peso en la mitad de esa cantidad, y le da sed.  
+Cuando _bebe_ se le quita la sed y adelgaza un kilo; en este caso no se informa cuánto bebe.
+
+
+## 3. Acciones sobre el animal actual
+
+Ahora vamos a darle indicaciones a la vaca que está en el juego. Wollok-game nos permite hacer esto asociando una tecla a cada acción.   
+P.ej. de esta forma se le indica que cuando se pulsa la tecla "c", se le dan de comer 12 kilos al animal actual
+```
+keyboard.c().onPressDo({ animalActual.comer(12) })
+```
+O sea: al objeto que representa a la tecla "c" le pido que cuando se pulse esa tecla, se ejecute una acción.  
+**Atención**: la acción que se pasa como parámetro se tiene que ejecutar recién cuando se pulse la tecla, no mientras se está configurando el juego. Para lograr esto, se pasa un bloque, por eso las llaves.  
+
+Agregar esta línea (debajo del título "configuraciones de teclado") y volver a ejecutar el programa. Pulsar la letra "c". ¿Cómo darse cuenta que se le dio de comer a la vaca? Pasar el cursor por arriba, se va a ver que abajo se indica el valor de los atributos, entre ellos debería estar el peso. Después de darle de comer, el valor de peso debería ser más alto.
+
+Otra cosa interesante: también puedo pedir que se _muestre_ el peso cuando se pulsa una tecla, p.ej. 
+```
+keyboard.p().onPressDo({ game.say(animalActual, animalActual.peso().toString()) })
+```
+Acá vemos otra cosa que le podemos decir al `game`, que es `say` con dos argumentos.
+Con `say` le estamos indicando al juego que uno de sus elementos tiene que decir algo. 
+El primer argumento es el elemento, el segundo es lo que va a decir.
+
+Agregar esta línea al programa y volver a ejecutarlo. Probar pulsando "c" y "p".
+
+Después, agregar la configuración de dos teclas más: 
+- una para que el animalActual beba; 
+- la otra para indicar "Tengo sed" o "No tengo sed", según si el animal tiene o no tiene sed. Esta va a usar `game.say`, pero tiene que haber un `if` para saber qué mostrar.
+
+
+## 4. Vaca o gallina
+
+En el archivo `animales.wlk`, agregar una clase `Gallina`, de forma tal que las gallinas sean polimórficas con las vacas para el juego.
+
+Cómo "funciona" una gallina:
+- cuando come, acumula _cuántas veces fue a comer_. No le importan los kilos, da lo mismo que coma 1 kilo o 20, lo que se cuenta es cuántas veces comió.
+- el peso es fijo, 4 kilos.
+- tiene sed si comió exactamente 2 veces, o si comió exactamente 5 veces. Con cualquier otro valor, no tiene sed.
+
+Tenemos que agregar también posición e imagen. Posición elíjanla ustedes. Para imagen hay un `gallina.gif` que pueden usar.
+
+Después de agregar la nueva clase, vuelvan al juego y **cambien** el animal actual, que en lugar de ser una vaca sea una gallina.   
+Prueben con las cuatro teclas
+- la que le da de comer 12 kilos
+- la que muestra el peso
+- la que le da de beber
+- la que muestra si tiene sed o no
+
+Tal vez alguna se rompa, se dan cuenta porque alguno de los personajes "dice" algo en color rojo. Si les pasa esto, recuerden que tienen que poner en `Gallina` **todos** los métodos necesarios para que el juego pueda usar instancias de esa clase. Si hay que agregar una acción que no haga nada, pues se agrega el método vacío.
+
+
+## 5. Movimiento
+
+## 6. Un poco más de lógica: tiene hambre
+
+## 7. Comedero 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
