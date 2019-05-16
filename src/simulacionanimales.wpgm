@@ -10,10 +10,19 @@ program animales {
 	 * agregamos personajes
 	 */ 
 	var animalActual = new Vaca()
-
+	game.addVisual(animalActual)
 	/*
 	 * configuraciones de teclado
 	 */
+	keyboard.c().onPressDo({ animalActual.comer(12) })// al poner  animalActual.comer(12) entre llaves"{}" lo pone en un "sobre" que es un bloque de codigo
+	keyboard.p().onPressDo({ game.say(animalActual, animalActual.peso().toString()) })
+	keyboard.b().onPressDo({ animalActual.beber() })
+	keyboard.s().onPressDo({ 
+		if(	animalActual.tieneSed()){
+		game.say(animalActual, "tengo sed")
+		}else{game.say(animalActual, "no tengo sed")						}
+		
+	})
 	
 	/*
 	 * arrancamos el juego
