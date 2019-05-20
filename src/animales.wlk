@@ -16,6 +16,18 @@ class Vaca {
 		tieneSed = false
 		peso = (peso - 1).max(10)
 	}
-
 }
 
+class Gallina {
+	
+	var property position = game.at (3, 7)
+	const property image = "gallina.gif"
+	const property peso = 4
+	var property tieneSed = false
+	var cont = 0
+	
+	method comer(kilos) {	cont += 1	}
+	method beber(){	 if (cont == 2 or cont == 5){ tieneSed = true}else{ tieneSed = false}	}
+	
+	
+}
