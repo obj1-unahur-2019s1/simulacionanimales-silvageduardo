@@ -26,11 +26,11 @@ program animales {
 		game.say(animalActual, "tengo sed")
 		}else{game.say(animalActual, "no tengo sed")}
 	})
-	
-	
-	
-	
-	
+//	keyboard.up().onPressDo({ animalActual.position().up() })
+//	keyboard.down().onPressDo({ animalActual.position().down() })
+//	keyboard.right().onPressDo({ animalActual.position().right() })
+//	keyboard.left().onPressDo({ animalActual.position().left() })
+				
 	/* arrancamos el juego*/
 	 game.start()
 }
