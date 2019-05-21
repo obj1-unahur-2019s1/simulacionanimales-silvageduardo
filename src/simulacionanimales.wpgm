@@ -6,31 +6,49 @@ program animales {
 	game.width(15)
 	game.height(15)
 	game.boardGround("fondo.jpg")
-	/* agregamos personajes */ 
+		/* agregamos personajes */
+	var comedero = new Comedero()
+	game.addVisual(comedero)
+	
 	var animalActual = new Vaca()
 	game.addVisual(animalActual)
-	keyboard.g().onPressDo({game.removeVisual(animalActual)
-							animalActual = new Gallina()
-							game.addVisual(animalActual)
+	keyboard.g().onPressDo({ game.removeVisual(animalActual)
+		animalActual = new Gallina()
+		game.addVisual(animalActual)
 	})
-	keyboard.v().onPressDo({game.removeVisual(animalActual)
-							animalActual = new Vaca()
-							game.addVisual(animalActual)
+	keyboard.v().onPressDo({ game.removeVisual(animalActual)
+		animalActual = new Vaca()
+		game.addVisual(animalActual)
 	})
-	/* configuraciones de teclado*/
-	keyboard.c().onPressDo({ animalActual.comer(12) })// al poner  animalActual.comer(12) entre llaves"{}" lo pone en un "sobre" que es un bloque de codigo
+		/* configuraciones de teclado*/
+	keyboard.c().onPressDo({ animalActual.comer(12) }) // al poner  animalActual.comer(12) entre llaves"{}" lo pone en un "sobre" que es un bloque de codigo
 	keyboard.p().onPressDo({ game.say(animalActual, animalActual.peso().toString()) })
 	keyboard.b().onPressDo({ animalActual.beber() })
-	keyboard.s().onPressDo({ 
-		if(	animalActual.tieneSed()){
-		game.say(animalActual, "tengo sed")
-		}else{game.say(animalActual, "no tengo sed")}
+	keyboard.s().onPressDo({ if (animalActual.tieneSed()) {
+			game.say(animalActual, "tengo sed")
+		} else {
+			game.say(animalActual, "no tengo sed")
+		}
 	})
-//	keyboard.up().onPressDo({ animalActual.position().up() })
-//	keyboard.down().onPressDo({ animalActual.position().down() })
-//	keyboard.right().onPressDo({ animalActual.position().right() })
-//	keyboard.left().onPressDo({ animalActual.position().left() })
-				
-	/* arrancamos el juego*/
-	 game.start()
+	keyboard.h().onPressDo({ animalActual.tieneHambre()
+		if (animalActual.hambre()) {
+			game.say(animalActual, "tengo hambre")
+		} else {
+			game.say(animalActual, "no tengo hambre")
+		}
+	})
+	keyboard.up().onPressDo({ animalActual.puedeCaminar()
+		animalActual.position(animalActual.position().up(1))
+	})
+	keyboard.down().onPressDo({ animalActual.puedeCaminar()
+		animalActual.position(animalActual.position().down(1))
+	})
+	keyboard.right().onPressDo({ animalActual.puedeCaminar()
+		animalActual.position(animalActual.position().right(1))
+	})
+	keyboard.left().onPressDo({ animalActual.puedeCaminar()
+		animalActual.position(animalActual.position().left(1))
+	})
+//	arrancamos el juego
+	game.start()
 }
