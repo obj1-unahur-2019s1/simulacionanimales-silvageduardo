@@ -9,7 +9,6 @@ program animales {
 		/* agregamos personajes */
 	var comedero = new Comedero()
 	game.addVisual(comedero)
-	
 	var animalActual = new Vaca()
 	game.addVisual(animalActual)
 	keyboard.g().onPressDo({ game.removeVisual(animalActual)
@@ -48,6 +47,16 @@ program animales {
 	})
 	keyboard.left().onPressDo({ animalActual.puedeCaminar()
 		animalActual.position(animalActual.position().left(1))
+	})
+	game.whenCollideDo(comedero, { animal =>
+		animal.position(animalActual.position().down(2))
+		if (comedero.puedeAtender(animal)) {
+			comedero.atender(animal)
+			game.say(animal, "rica la comida")
+		} else {
+			game.say(comedero, "no te puedo atender")
+		}
+		
 	})
 //	arrancamos el juego
 	game.start()

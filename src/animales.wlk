@@ -87,11 +87,20 @@ class Comedero {
 
 	var property position = game.at(9, 11)
 	const property image = "comedero.gif"
-	var property racion = 0
-	var property pesoComedero = 0
+	var property tamanioRacion = 6
+	var property racion = 3
+	var property pesoComedero = 200
 
 	method puedeAtender(animal) {
-		return pesoComedero > animal.peso() and animal.tieneHambre()
+		return pesoComedero >= animal.peso() and animal.hambre()
+	}
+
+	method atender(animal) {
+		if(self.racion() < 1){
+			self.error("no te puedo atender")
+		}else{
+		animal.comer(tamanioRacion)
+		racion -= 1}
 	}
 
 	method recargar() {
